@@ -1,9 +1,15 @@
+import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { Button } from "../button";
 
 const Navbar = () => {
   return (
-    <header className=" h-16 ">
+    <motion.header
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1 }}
+      className=" fixed left-0 z-50 bg-white w-full h-16 "
+    >
       <nav className="w-full max-w-[1220px] px-[20px]  mx-auto  flex h-full justify-between items-center ">
         <NavLink to="/" className="text-[32px]">
           iRepair
@@ -18,7 +24,7 @@ const Navbar = () => {
           </Button>
         </ul>
       </nav>
-    </header>
+    </motion.header>
   );
 };
 

@@ -21,23 +21,26 @@ const HeroSection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, type: "spring" },
+      transition: {
+        y: { duration: 0.5, type: "spring" },
+      },
     },
   };
 
   const laptop = {
-    initial: { y: 0, rotate: 0, scale: 2 },
+    initial: { y: 0, rotate: 0, scale: 6 },
     animate: {
       y: 50,
       rotate: -30,
-      scale: 1,
+      scale: 0.8,
       transition: {
+        duration: 10,
         scale: {
-          duration: 3,
+          duration: 0.3,
         },
         rotate: {
-          duration: 3,
-          delay: 2,
+          duration: 0.3,
+          delay: 0.3,
         },
         y: {
           repeat: Infinity,
@@ -51,11 +54,11 @@ const HeroSection = () => {
   };
 
   return (
-    <Container className="grid lg:grid-cols-2 grid-cols-1  h-[calc(100vh-64px)] justify-center place-content-center ">
+    <Container className="grid lg:grid-cols-2 grid-cols-1  h-screen justify-center place-content-center ">
       <motion.div variants={intro} initial="hidden" animate="visible">
         <motion.h1
           variants={introChildren}
-          className="text-8xl w-full flex flex-col text-nowrap"
+          className="text-8xl w-full pt-16 flex flex-col text-nowrap"
         >
           <span className="text-gray">Don't worry,</span>
           <span>We'll fix it.</span>
