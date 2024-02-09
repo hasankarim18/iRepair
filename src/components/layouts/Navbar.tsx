@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { Button } from "../button";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (

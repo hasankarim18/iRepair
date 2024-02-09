@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 
 const About = () => {
   return (
-    <Container>
+    <Container className="">
       <h1>This is about page </h1>
     </Container>
   );
