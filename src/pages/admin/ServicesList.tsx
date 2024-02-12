@@ -10,10 +10,50 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { FormEvent, useState } from "react";
 
 const ServicesList = () => {
   const { data: services, isLoading, isError } = useGetServices();
+
+  const [serviceName, setServiceName] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const {
+    mutateAsync,
+    isError: postError,
+    isSuccess: isPostSuccess,
+  } = useMutation({
+    mutationFn: async (data) => {
+      return await fetch("http://localhost:5000/api/v1/services", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["services"] });
+    },
+    //   mutationKey: "addService",
+  });
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const serviceData = {
+      name: serviceName,
+      description: "Replace Any Chipset",
+      devices: ["Smartphone", "Laptop", "Tablet"],
+      price: 400.0,
+    };
+    console.log(serviceData);
+    await mutateAsync(serviceData);
+    console.log("done");
+    alert("success");
+  };
 
   if (isError) {
     return (
@@ -26,8 +66,6 @@ const ServicesList = () => {
   if (isLoading) {
     return <h1>Loading....</h1>;
   }
-
-  console.log(services);
 
   return (
     <div>
@@ -70,6 +108,37 @@ const ServicesList = () => {
             </TableRow>
           </TableFooter>
         </Table>
+        <div className="mt-10 p-4">
+          <h2>Add a service</h2>
+        </div>
+      </Container>
+
+      <Container className="">
+        <div className="mt-10">
+          <h2>Add a service</h2>
+          <div className="grid grid-cols-12">
+            <div className="col-span-12 md:col-span-8 lg:col-span-4">
+              <form
+                className="flex justify-start flex-col gap-2"
+                action=""
+                onSubmit={handleSubmit}
+              >
+                <label htmlFor="serviceName">Service Name</label>
+                <input
+                  id="serviceName"
+                  className="border p-2 rounded-xl"
+                  type="text"
+                  onChange={(e) => {
+                    setServiceName(e.target.value);
+                  }}
+                />
+                <Button className="rounded-xl" type="submit">
+                  Submit
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
       </Container>
     </div>
   );
